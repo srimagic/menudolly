@@ -1,0 +1,18 @@
+{
+  "name": "menudollyelastic",
+  "version": "0.0.0",
+  "description": "restful interface for menudolly data on elastic servers",
+  "author": "srimagic",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srimagic/menudolly.git"
+  },
+  "dependencies": {
+    "elasticsearch": "^10.1.3",
+    "line-by-line": "^0.1.4",
+    "node-phonenumber": "^0.2.2",
+    "phone-formatter": "0.0.2",
+    "request": "^2.69.0"
+  }
+}
