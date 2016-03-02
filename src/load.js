@@ -8,7 +8,7 @@ es_mapping - elastic mapping from config
 
 var load = function(){};
 
-load.prototype.start = function(data_file, data_fields, es_mapping){
+load.prototype.start = function(data_file, data_fields, es_mapping, es_mapping_id){
     var fs = require('fs'),
         line_by_line = require('line-by-line'),
         elasticsearch = require('elasticsearch'),
@@ -98,6 +98,10 @@ load.prototype.start = function(data_file, data_fields, es_mapping){
                 data["fphone"] = formatPhone(data["phone"]);
             }
 
+            if (data["caterer_phone"]){
+                data["caterer_phone"] = formatPhone(data["caterer_phone"]);
+            }
+
             if (!data["address_line"]) {
                 return cb(null);
             }
@@ -118,12 +122,27 @@ load.prototype.start = function(data_file, data_fields, es_mapping){
         },
         load = function(line_num, data, cb) {
 
-            es.index({
+            var es_input = {
                 index : config[es_mapping].index,
                 type : config[es_mapping].mapping,
-                id : data["fphone"],
                 body : data
-            }, function(err, res){
+            };
+
+            switch (es_mapping){
+                case 'caterer':
+                    es_input['id'] = data['fphone'];
+                    break;
+
+                case 'menu':
+                    es_input['parent'] = data['caterer_phone'];
+                    break;
+
+                case 'items':
+                    es_input['id'] = data['name'].toString().replace(' ','');
+                    break;
+            }
+
+            es.index(es_input, function(err, res){
                 
                 if (err) {
                   console.log("Err creating index data = ", JSON.stringify(data), " err = ", JSON.stringify(err));
