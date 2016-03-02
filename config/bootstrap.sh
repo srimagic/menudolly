@@ -24,10 +24,11 @@ curl -XPOST 'http://localhost:9200/catering' -d '
         "last_name": {"type":"string"},
         "category": {"type":"string"},
         "gender": {"type":"string"},
-        "phone": {"type":"string"},
+        "phone": {"type":"string", "index":"not_analyzed"},
         "img": {"type":"string", "index":"not_analyzed"},
         "about": {"type":"string", "index":"not_analyzed"},
         "likes": {"type":"integer", "index":"not_analyzed"},
+        "fphone": {"type":"string", "index":"not_analyzed"},
         "active": {"type":"boolean", "index":"not_analyzed"},
         "pin" : {
           "type" : "object",
@@ -50,7 +51,7 @@ curl -XPOST 'http://localhost:9200/catering' -d '
         "type": "caterer"
       },
       "properties" : {
-        "caterer_phone": {"type":"string"},
+        "caterer_phone": {"type":"string", "index":"not_analyzed"},
         "caterer_fname": {"type":"string"},
         "caterer_lname": {"type":"string"},
         "item_name": {"type":"string"},
